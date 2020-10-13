@@ -1,5 +1,5 @@
 /*
- *@author HuyLQ19
+ *@author ThomasLe
  *@date Oct 4, 2020
 */
 package librarymanagement.utils;
@@ -12,7 +12,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
-import librarymanagement.entity.Book;
+import librarymanagement.entities.Book;
 
 public class HibernateUtils {
 	private static SessionFactory sessionFactory;

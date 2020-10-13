@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Home</title>
+	<h:outputStylesheet library="css" name="styles.css"></h:outputStylesheet>
+</h:head>
+
+<h:body>
+	<h:form>
+		<h:dataTable id="bookTable" value="#{bookBean.books}" var="book">
+			<h:column rendered="#{not bookBean.hidden}">
+				<f:facet name="header">ID</f:facet>
+				<h:outputText value="#{book.id}"></h:outputText>
+			</h:column>
+
+			<h:column rendered="#{not bookBean.hidden}">
+				<f:facet name="header">Name</f:facet>
+				<h:commandLink action="#{bookBean.edit(book)}" value="#{book.name}">
+					<f:ajax render="@form"></f:ajax>
+				</h:commandLink>
+			</h:column>
+
+			<h:column rendered="#{not bookBean.hidden}">
+				<f:facet name="header">Created date</f:facet>
+				<h:outputText value="#{book.createdDate}"></h:outputText>
+			</h:column>
+
+			<h:column rendered="#{not bookBean.hidden}">
+				<f:facet name="header">Updated date</f:facet>
+				<h:outputText value="#{book.updatedDate}"></h:outputText>
+			</h:column>
+
+			<h:column>
+				<h:outputLabel value="Name:" for="inputName"
+					rendered="#{book.editable}"></h:outputLabel>
+			</h:column>
+			<h:column>
+				<h:inputText id="inputName" value="#{book.name}"
+					rendered="#{book.editable}"
+					onkeypress="if (event.keyCode == 13) {event.target.blur(); event.stopPropagation(); return false;} else {return true;};">
+					<f:ajax event="change" execute="inputName" render="@form"
+						listener="#{bookBean.update(book)}"></f:ajax>
+				</h:inputText>
+			</h:column>
+
+		</h:dataTable>
+	</h:form>
+</h:body>
+</html>
