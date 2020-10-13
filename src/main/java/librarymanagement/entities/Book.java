@@ -7,7 +7,6 @@ package librarymanagement.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "book")
@@ -15,8 +14,11 @@ public class Book extends BaseEntity {
 	@Column(name = "name", length = 100, nullable = false)
 	private String name;
 
-	@Transient
-	private boolean editable;
+	@Column(name = "author", length = 50, nullable = false)
+	private String author;
+
+	@Column(name = "content", columnDefinition = "text", nullable = false)
+	private String content;
 
 	public String getName() {
 		return name;
@@ -26,12 +28,20 @@ public class Book extends BaseEntity {
 		this.name = name;
 	}
 
-	public boolean isEditable() {
-		return editable;
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setEditable(boolean editable) {
-		this.editable = editable;
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 }

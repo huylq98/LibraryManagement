@@ -40,9 +40,15 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void add(Book book) {
-		// TODO Auto-generated method stub
-
+	public void save(Book book) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.save(book);
+			transaction.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -58,8 +64,14 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-
+	public void remove(Book book) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.remove(book);
+			transaction.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
 	}
 }

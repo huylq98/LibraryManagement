@@ -18,10 +18,10 @@ public class BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "createddate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+	@Column(name = "createddate", columnDefinition = "DATE", nullable = false)
 	private Date createdDate;
 
-	@Column(name = "updateddate", columnDefinition = "TIMESTAMP")
+	@Column(name = "updateddate", columnDefinition = "DATE")
 	private Date updatedDate;
 
 	public Integer getId() {

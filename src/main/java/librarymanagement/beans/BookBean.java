@@ -25,7 +25,7 @@ public class BookBean implements Serializable {
 	@Inject
 	private BookService bookService;
 	private List<Book> books;
-
+	private Book book;
 	private boolean hidden;
 
 	@PostConstruct
@@ -33,17 +33,19 @@ public class BookBean implements Serializable {
 		books = bookService.getAll();
 	}
 
-	public void edit(Book book) {
-		books.forEach(b -> b.setEditable(false));
-		book.setEditable(true);
+	public void edit() {
 		hidden = true;
 	}
 
-	public void update(Book book) {
+	public void update() {
 		book.setUpdatedDate(new Date());
 		bookService.update(book);
-		books.forEach(b -> b.setEditable(false));
 		hidden = false;
+	}
+
+	public void remove(Book book) {
+		bookService.remove(book);
+		books.remove(book);
 	}
 
 	public List<Book> getBooks() {
@@ -54,6 +56,14 @@ public class BookBean implements Serializable {
 		this.books = books;
 	}
 
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+
 	public boolean isHidden() {
 		return hidden;
 	}
@@ -61,5 +71,4 @@ public class BookBean implements Serializable {
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
-
 }
