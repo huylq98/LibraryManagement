@@ -22,67 +22,45 @@ public class CategoryServiceImpl implements CategoryService, Serializable {
 	private static final long serialVersionUID = -6179870571118614583L;
 
 	@Override
-	public List<Category> getAll() {
-		Transaction transaction = null;
-		List<Category> categories = null;
+	public List<Category> getAll() throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			categories = session.createQuery("FROM Category", Category.class).getResultList();
-			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
+			List<Category> categories = session.createQuery("FROM Category", Category.class).getResultList();
+			return categories;
 		}
-		return categories;
 	}
 
 	@Override
-	public Category get(Integer id) {
-		Transaction transaction = null;
-		Category category = null;
+	public Category get(Integer id) throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			category = session.get(Category.class, id);
-			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
+			Category category = session.get(Category.class, id);
+			return category;
 		}
-		return category;
 	}
 
 	@Override
-	public void save(Category category) {
-		Transaction transaction = null;
+	public void save(Category category) throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
+			Transaction transaction = session.beginTransaction();
 			session.save(category);
 			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void update(Category category) {
-		Transaction transaction = null;
+	public void update(Category category) throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
+			Transaction transaction = session.beginTransaction();
 			session.saveOrUpdate(category);
 			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void remove(Category category) {
-		Transaction transaction = null;
+	public void remove(Category category) throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
+			Transaction transaction = session.beginTransaction();
 			session.remove(category);
 			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
 		}
 	}
-
 }

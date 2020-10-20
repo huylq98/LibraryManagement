@@ -15,7 +15,6 @@ import javax.inject.Named;
 
 import librarymanagement.entities.Book;
 import librarymanagement.services.BookService;
-import librarymanagement.services.CategoryService;
 
 @Named
 @SessionScoped
@@ -26,12 +25,8 @@ public class BookBean implements Serializable {
 	@Inject
 	private BookService bookService;
 
-	@Inject
-	private CategoryService categoryService;
-
 	private List<Book> books;
 	private Book currentBook;
-	private Integer categoryID;
 
 	@PostConstruct
 	public void init() {
@@ -40,11 +35,7 @@ public class BookBean implements Serializable {
 
 	public void update() {
 		currentBook.setUpdatedDate(LocalDate.now());
-		if (categoryID != null) {
-			currentBook.setCategory(categoryService.get(categoryID));
-		}
 		bookService.update(currentBook);
-		categoryID = null;
 	}
 
 	public void remove(Book book) {
@@ -77,13 +68,5 @@ public class BookBean implements Serializable {
 
 	public void setCurrentBook(Book currentBook) {
 		this.currentBook = currentBook;
-	}
-
-	public Integer getCategoryID() {
-		return categoryID;
-	}
-
-	public void setCategoryID(Integer categoryID) {
-		this.categoryID = categoryID;
 	}
 }

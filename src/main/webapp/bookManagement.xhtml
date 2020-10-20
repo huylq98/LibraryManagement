@@ -25,8 +25,6 @@
 					<h:commandLink value="#{book.name}">
 						<f:setPropertyActionListener value="#{book}"
 							target="#{bookBean.currentBook}"></f:setPropertyActionListener>
-						<f:setPropertyActionListener value="#{book.category.id}"
-							target="#{bookBean.categoryID}"></f:setPropertyActionListener>
 						<f:ajax render="@form"></f:ajax>
 					</h:commandLink>
 				</h:column>
@@ -101,7 +99,7 @@
 				<h:outputLabel value="Release date:"></h:outputLabel>
 				<h:inputText id="releasedDate"
 					value="#{bookBean.currentBook.releasedDate}"
-					converter="dateConverter">
+					converter="dateConverter" validator="dateValidator">
 					<f:ajax event="change" execute="@this"
 						listener="#{bookBean.update}"></f:ajax>
 				</h:inputText>
@@ -109,14 +107,14 @@
 			</h:panelGroup>
 
 			<h:panelGroup layout="block" style="display: block;">
-				<h:outputLabel value="Category:" for="inputBookCategory"></h:outputLabel>
-				<h:selectOneMenu id="inputBookCategory"
-					value="#{bookBean.categoryID}">
-					<f:selectItems value="#{categoryBean.categories}" var="category"
-						itemLabel="#{category.name}" itemValue="#{category.id}"></f:selectItems>
-					<f:ajax event="change" execute="inputBookCategory"
+				<h:outputLabel value="Category:"></h:outputLabel>
+				<h:inputText id="bookCategory"
+					value="#{bookBean.currentBook.category}"
+					converter="categoryConverter">
+					<f:ajax event="change" execute="@this"
 						listener="#{bookBean.update}"></f:ajax>
-				</h:selectOneMenu>
+				</h:inputText>
+				<h:message for="bookCategory"></h:message>
 			</h:panelGroup>
 
 			<h:commandButton value="Back" style="display: block;">

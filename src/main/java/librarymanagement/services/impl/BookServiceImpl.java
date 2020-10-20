@@ -23,66 +23,45 @@ public class BookServiceImpl implements BookService, Serializable {
 	private static final long serialVersionUID = -3268025886861382138L;
 
 	@Override
-	public List<Book> getAll() {
-		Transaction transaction = null;
-		List<Book> books = null;
+	public List<Book> getAll() throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			books = session.createQuery("FROM Book b", Book.class).getResultList();
-			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
+			List<Book> books = session.createQuery("FROM Book", Book.class).getResultList();
+			return books;
 		}
-		return books;
 	}
 
 	@Override
-	public Book get(Integer id) {
-		Transaction transaction = null;
-		Book book = null;
+	public Book get(Integer id) throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			book = session.get(Book.class, id);
-			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
+			Book book = session.get(Book.class, id);
+			return book;
 		}
-		return book;
 	}
 
 	@Override
-	public void save(Book book) {
-		Transaction transaction = null;
+	public void save(Book book) throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
+			Transaction transaction = session.beginTransaction();
 			session.save(book);
 			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void update(Book book) {
-		Transaction transaction = null;
+	public void update(Book book) throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
+			Transaction transaction = session.beginTransaction();
 			session.saveOrUpdate(book);
 			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void remove(Book book) {
-		Transaction transaction = null;
+	public void remove(Book book) throws HibernateException {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
+			Transaction transaction = session.beginTransaction();
 			session.remove(book);
 			transaction.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
 		}
 	}
 }

@@ -41,9 +41,8 @@ public class DateConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		LocalDate releasedDate;
 		if (value instanceof LocalDate) {
-			releasedDate = (LocalDate) value;
+			LocalDate releasedDate = (LocalDate) value;
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			return releasedDate.format(dtf);
 		}
