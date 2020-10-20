@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+</h:head>
+
+<h:body>
+	<h:panelGroup id="categoryManagement" layout="block">
+		<h:panelGroup layout="block" rendered="#{categoryBean.currentCategory eq null}">
+			<h:outputText value="Category Management"></h:outputText>
+
+			<h:dataTable value="#{categoryBean.categories}" var="category">
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{category.id}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:commandLink value="#{category.name}">
+						<f:setPropertyActionListener value="#{category}"
+							target="#{categoryBean.currentCategory}"></f:setPropertyActionListener>
+						<f:ajax render="@form"></f:ajax>
+					</h:commandLink>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Created date</f:facet>
+					<h:outputText value="#{category.createdDate}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Updated date</f:facet>
+					<h:outputText value="#{category.updatedDate}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Delete</f:facet>
+					<h:commandLink value="Delete">
+						<f:ajax listener="#{categoryBean.remove(category)}" render="@form"></f:ajax>
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+
+			<h:commandButton value="Back">
+				<f:ajax render="@form" listener="#{homeController.showHomeMenu}"></f:ajax>
+			</h:commandButton>
+			<h:commandButton value="Add">
+				<f:ajax listener="#{categoryBean.showCategoryDetails}"
+					render="@form"></f:ajax>
+			</h:commandButton>
+		</h:panelGroup>
+
+		<h:panelGroup layout="block" rendered="#{categoryBean.currentCategory ne null}">
+			<h:outputText value="Category's Details" style="display: block;"></h:outputText>
+			<h:panelGroup layout="block">
+				<h:outputLabel value="Name:" for="inputCategoryName"></h:outputLabel>
+				<h:inputText id="inputCategoryName"
+					value="#{categoryBean.currentCategory.name}">
+					<f:ajax event="change" execute="inputCategoryName"
+						listener="#{categoryBean.update}"></f:ajax>
+				</h:inputText>
+			</h:panelGroup>
+
+			<h:commandButton value="Back">
+				<f:ajax render="@form" listener="#{categoryBean.showTable}"></f:ajax>
+			</h:commandButton>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

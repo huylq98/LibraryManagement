@@ -3,81 +3,37 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<title>Home</title>
 	<h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
 </h:head>
 
 <h:body>
+	<h:form>
+		<h:panelGroup layout="block"
+			rendered="#{homeController.menuNavigation eq null}">
+			<h:commandButton value="Book Management">
+				<f:ajax render="@form"
+					listener="#{homeController.showBookManagement}"></f:ajax>
+			</h:commandButton>
 
-	<h:form rendered="#{not bookBean.hidden}">
-		<h:outputText value="List of Books" styleClass="table-title"></h:outputText>
+			<h:commandButton value="Category Management">
+				<f:ajax render="@form"
+					listener="#{homeController.showCategoryManagement}"></f:ajax>
+			</h:commandButton>
+		</h:panelGroup>
 
-		<h:dataTable value="#{bookBean.books}" var="book" styleClass="table"
-			headerClass="table-header" rowClasses="table-row">
-			<h:column>
-				<f:facet name="header">ID</f:facet>
-				<h:outputText value="#{book.id}"></h:outputText>
-			</h:column>
+		<h:panelGroup layout="block"
+			rendered="#{homeController.menuNavigation eq 1}">
+			<ui:include src="bookManagement.xhtml"></ui:include>
+		</h:panelGroup>
 
-			<h:column>
-				<f:facet name="header">Name</f:facet>
-				<h:commandLink value="#{book.name}" styleClass="name-link"
-					title="Click to Edit">
-					<f:setPropertyActionListener value="#{book}"
-						target="#{bookBean.book}"></f:setPropertyActionListener>
-					<f:ajax listener="#{bookBean.edit}" render="@all"></f:ajax>
-				</h:commandLink>
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">Author</f:facet>
-				<h:outputText value="#{book.author}"></h:outputText>
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">Created date</f:facet>
-				<h:outputText value="#{book.createdDate}"></h:outputText>
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">Updated date</f:facet>
-				<h:outputText value="#{book.updatedDate}"></h:outputText>
-			</h:column>
-
-			<h:column>
-				<h:commandLink value="Delete"
-					onclick="return confirm('Do you want to delete this book?')">
-					<f:ajax listener="#{bookBean.remove(book)}" render="@form" />
-				</h:commandLink>
-			</h:column>
-		</h:dataTable>
-	</h:form>
-
-	<h:form rendered="#{bookBean.hidden}">
-		<h:outputText value="Book Details"></h:outputText>
-
-		<h:outputLabel value="Name:" for="inputName"></h:outputLabel>
-		<h:inputText id="inputName" value="#{bookBean.book.name}"
-			onkeypress="if (event.keyCode == 13) {event.target.blur();event.stopPropagation();return false;} else {return true;};">
-			<f:ajax event="change" execute="@this" render="@all"
-				listener="#{bookBean.update}"></f:ajax>
-		</h:inputText>
-
-		<h:outputLabel value="Author:" for="inputAuthor"></h:outputLabel>
-		<h:inputText id="inputAuthor" value="#{bookBean.book.author}"
-			onkeypress="if (event.keyCode == 13) {event.target.blur();event.stopPropagation();return false;} else {return true;};">
-			<f:ajax event="change" execute="@this" render="@all"
-				listener="#{bookBean.update}"></f:ajax>
-		</h:inputText>
-
-		<h:outputLabel value="Content:" for="inputContent"></h:outputLabel>
-		<h:inputTextarea id="inputContent" value="#{bookBean.book.content}"
-			onkeypress="if (event.keyCode == 13) {event.target.blur();event.stopPropagation();return false;} else {return true;};">
-			<f:ajax event="change" execute="@this" render="@all"
-				listener="#{bookBean.update}"></f:ajax>
-		</h:inputTextarea>
+		<h:panelGroup layout="block"
+			rendered="#{homeController.menuNavigation eq 2}">
+			<ui:include src="categoryManagement.xhtml"></ui:include>
+		</h:panelGroup>
 	</h:form>
 </h:body>
 </html>

@@ -4,7 +4,7 @@
 */
 package librarymanagement.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -18,11 +18,11 @@ public class BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "createddate", columnDefinition = "DATE", nullable = false)
-	private Date createdDate;
+	@Column(name = "createddate", columnDefinition = "DATE")
+	private LocalDate createdDate;
 
 	@Column(name = "updateddate", columnDefinition = "DATE")
-	private Date updatedDate;
+	private LocalDate updatedDate;
 
 	public Integer getId() {
 		return id;
@@ -32,19 +32,19 @@ public class BaseEntity {
 		this.id = id;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDate getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public Date getUpdatedDate() {
+	public LocalDate getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(Date updatedDate) {
+	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 }

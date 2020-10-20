@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+</h:head>
+
+<h:body>
+	<h:panelGroup layout="block">
+		<h:panelGroup layout="block"
+			rendered="#{bookBean.currentBook eq null}">
+			<h:outputText value="Book Management"></h:outputText>
+
+			<h:dataTable value="#{bookBean.books}" var="book">
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{book.id}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:commandLink value="#{book.name}">
+						<f:setPropertyActionListener value="#{book}"
+							target="#{bookBean.currentBook}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{book.category.id}"
+							target="#{bookBean.categoryID}"></f:setPropertyActionListener>
+						<f:ajax render="@form"></f:ajax>
+					</h:commandLink>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Author</f:facet>
+					<h:outputText value="#{book.author}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Category</f:facet>
+					<h:outputText value="#{book.category.name}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Created date</f:facet>
+					<h:outputText value="#{book.createdDate}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Updated date</f:facet>
+					<h:outputText value="#{book.updatedDate}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Delete</f:facet>
+					<h:commandLink value="Delete">
+						<f:ajax listener="#{bookBean.remove(book)}" render="@form"></f:ajax>
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+
+			<h:commandButton value="Back">
+				<f:ajax render="@form" listener="#{homeController.showHomeMenu}"></f:ajax>
+			</h:commandButton>
+			<h:commandButton value="Add">
+				<f:ajax listener="#{bookBean.showBookDetails}" render="@form"></f:ajax>
+			</h:commandButton>
+		</h:panelGroup>
+
+		<h:panelGroup layout="block"
+			rendered="#{bookBean.currentBook ne null}">
+			<h:panelGroup layout="block" style="display: block;">
+				<h:outputText value="Book's Details"></h:outputText>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" style="display: block;">
+				<h:outputLabel value="Name:"></h:outputLabel>
+				<h:inputText value="#{bookBean.currentBook.name}">
+					<f:ajax event="change" execute="@this"
+						listener="#{bookBean.update}"></f:ajax>
+				</h:inputText>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" style="display: block;">
+				<h:outputLabel value="Author:"></h:outputLabel>
+				<h:inputText value="#{bookBean.currentBook.author}">
+					<f:ajax event="change" execute="@this"
+						listener="#{bookBean.update}"></f:ajax>
+				</h:inputText>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" style="display: block;">
+				<h:outputLabel value="Content:"></h:outputLabel>
+				<h:inputText value="#{bookBean.currentBook.content}">
+					<f:ajax event="change" execute="@this"
+						listener="#{bookBean.update}"></f:ajax>
+				</h:inputText>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" style="display: block;">
+				<h:outputLabel value="Release date:"></h:outputLabel>
+				<h:inputText id="releasedDate"
+					value="#{bookBean.currentBook.releasedDate}"
+					converter="dateConverter">
+					<f:ajax event="change" execute="@this"
+						listener="#{bookBean.update}"></f:ajax>
+				</h:inputText>
+				<h:message for="releasedDate" style="color: red;"></h:message>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" style="display: block;">
+				<h:outputLabel value="Category:" for="inputBookCategory"></h:outputLabel>
+				<h:selectOneMenu id="inputBookCategory"
+					value="#{bookBean.categoryID}">
+					<f:selectItems value="#{categoryBean.categories}" var="category"
+						itemLabel="#{category.name}" itemValue="#{category.id}"></f:selectItems>
+					<f:ajax event="change" execute="inputBookCategory"
+						listener="#{bookBean.update}"></f:ajax>
+				</h:selectOneMenu>
+			</h:panelGroup>
+
+			<h:commandButton value="Back" style="display: block;">
+				<f:ajax render="@form" listener="#{bookBean.showTable}"></f:ajax>
+			</h:commandButton>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

@@ -4,21 +4,33 @@
 */
 package librarymanagement.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "book")
 public class Book extends BaseEntity {
-	@Column(name = "name", length = 100, nullable = false)
+
+	@Column(name = "name", length = 100)
 	private String name;
 
-	@Column(name = "author", length = 50, nullable = false)
+	@Column(name = "author", length = 50)
 	private String author;
 
-	@Column(name = "content", columnDefinition = "text", nullable = false)
+	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;
+
+	@Column(name = "releaseddate", columnDefinition = "DATE")
+	private LocalDate releasedDate;
+
+	@ManyToOne
+	@JoinColumn(name = "categoryid")
+	private Category category;
 
 	public String getName() {
 		return name;
@@ -44,4 +56,19 @@ public class Book extends BaseEntity {
 		this.content = content;
 	}
 
+	public LocalDate getReleasedDate() {
+		return releasedDate;
+	}
+
+	public void setReleasedDate(LocalDate releasedDate) {
+		this.releasedDate = releasedDate;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 }

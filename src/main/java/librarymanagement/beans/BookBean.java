@@ -5,7 +5,7 @@
 package librarymanagement.beans;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +15,7 @@ import javax.inject.Named;
 
 import librarymanagement.entities.Book;
 import librarymanagement.services.BookService;
+import librarymanagement.services.CategoryService;
 
 @Named
 @SessionScoped
@@ -24,28 +25,42 @@ public class BookBean implements Serializable {
 
 	@Inject
 	private BookService bookService;
+
+	@Inject
+	private CategoryService categoryService;
+
 	private List<Book> books;
-	private Book book;
-	private boolean hidden;
+	private Book currentBook;
+	private Integer categoryID;
 
 	@PostConstruct
 	public void init() {
 		books = bookService.getAll();
 	}
 
-	public void edit() {
-		hidden = true;
-	}
-
 	public void update() {
-		book.setUpdatedDate(new Date());
-		bookService.update(book);
-		hidden = false;
+		currentBook.setUpdatedDate(LocalDate.now());
+		if (categoryID != null) {
+			currentBook.setCategory(categoryService.get(categoryID));
+		}
+		bookService.update(currentBook);
+		categoryID = null;
 	}
 
 	public void remove(Book book) {
 		bookService.remove(book);
 		books.remove(book);
+	}
+
+	public void showBookDetails() {
+		currentBook = new Book();
+		currentBook.setCreatedDate(LocalDate.now());
+		bookService.save(currentBook);
+		books.add(currentBook);
+	}
+
+	public void showTable() {
+		currentBook = null;
 	}
 
 	public List<Book> getBooks() {
@@ -56,19 +71,19 @@ public class BookBean implements Serializable {
 		this.books = books;
 	}
 
-	public Book getBook() {
-		return book;
+	public Book getCurrentBook() {
+		return currentBook;
 	}
 
-	public void setBook(Book book) {
-		this.book = book;
+	public void setCurrentBook(Book currentBook) {
+		this.currentBook = currentBook;
 	}
 
-	public boolean isHidden() {
-		return hidden;
+	public Integer getCategoryID() {
+		return categoryID;
 	}
 
-	public void setHidden(boolean hidden) {
-		this.hidden = hidden;
+	public void setCategoryID(Integer categoryID) {
+		this.categoryID = categoryID;
 	}
 }

@@ -13,6 +13,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import librarymanagement.entities.Book;
+import librarymanagement.entities.Category;
 
 public class HibernateUtils {
 	private static SessionFactory sessionFactory;
@@ -20,6 +21,8 @@ public class HibernateUtils {
 	public static SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
 			Configuration configuration = new Configuration();
+			configuration.addAnnotatedClass(Category.class);
+			configuration.addAnnotatedClass(Book.class);
 
 			Properties settings = new Properties();
 			settings.put(Environment.DRIVER, "org.postgresql.Driver");
@@ -31,7 +34,6 @@ public class HibernateUtils {
 			settings.put(Environment.HBM2DDL_AUTO, "validate");
 
 			configuration.setProperties(settings);
-			configuration.addAnnotatedClass(Book.class);
 
 			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 					.applySettings(configuration.getProperties()).build();
