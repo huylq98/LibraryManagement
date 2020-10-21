@@ -100,10 +100,11 @@
 				<h:inputText id="releasedDate"
 					value="#{bookBean.currentBook.releasedDate}"
 					converter="dateConverter" validator="dateValidator">
-					<f:ajax event="change" execute="@this"
+					<f:ajax event="change" execute="@this" render="dateConverterMsg"
 						listener="#{bookBean.update}"></f:ajax>
 				</h:inputText>
-				<h:message for="releasedDate" style="color: red;"></h:message>
+				<h:message id="dateConverterMsg" for="releasedDate"
+					errorStyle="color: red;"></h:message>
 			</h:panelGroup>
 
 			<h:panelGroup layout="block" style="display: block;">
@@ -112,9 +113,10 @@
 					value="#{bookBean.currentBook.category}"
 					converter="categoryConverter">
 					<f:ajax event="change" execute="@this"
-						listener="#{bookBean.update}"></f:ajax>
+						render="categoryConverterMsg" listener="#{bookBean.update}"></f:ajax>
 				</h:inputText>
-				<h:message for="bookCategory"></h:message>
+				<h:message id="categoryConverterMsg" for="bookCategory"
+					errorStyle="color: red;" infoStyle="color: blue;"></h:message>
 			</h:panelGroup>
 
 			<h:commandButton value="Back" style="display: block;">
