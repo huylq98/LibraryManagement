@@ -4,13 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 </h:head>
 
 <h:body>
-	<h:panelGroup layout="block">
-		<h:panelGroup layout="block"
+	<h:panelGroup id="bookManagement" layout="block">
+		<h:panelGroup id="bookTable" layout="block"
 			rendered="#{bookBean.currentBook eq null}">
 			<h:outputText value="Book Management"></h:outputText>
 
@@ -22,11 +23,11 @@
 
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:commandLink value="#{book.name}">
+					<p:commandLink value="#{book.name}"
+						update="mainForm:bookManagement">
 						<f:setPropertyActionListener value="#{book}"
 							target="#{bookBean.currentBook}"></f:setPropertyActionListener>
-						<f:ajax render="@form"></f:ajax>
-					</h:commandLink>
+					</p:commandLink>
 				</h:column>
 
 				<h:column>
@@ -51,18 +52,15 @@
 
 				<h:column>
 					<f:facet name="header">Delete</f:facet>
-					<h:commandLink value="Delete">
-						<f:ajax listener="#{bookBean.remove(book)}" render="@form"></f:ajax>
-					</h:commandLink>
+					<p:commandLink value="Delete" update="mainForm:bookTable"
+						actionListener="#{bookBean.remove(book)}"></p:commandLink>
 				</h:column>
 			</h:dataTable>
 
-			<h:commandButton value="Back">
-				<f:ajax render="@form" listener="#{homeController.showHomeMenu}"></f:ajax>
-			</h:commandButton>
-			<h:commandButton value="Add">
-				<f:ajax listener="#{bookBean.showBookDetails}" render="@form"></f:ajax>
-			</h:commandButton>
+			<p:commandButton value="Back" update="mainForm"
+				actionListener="#{homeController.showHomeMenu}"></p:commandButton>
+			<p:commandButton value="Add" update="mainForm:bookManagement"
+				actionListener="#{bookBean.showBookDetails}"></p:commandButton>
 		</h:panelGroup>
 
 		<h:panelGroup layout="block"
@@ -73,55 +71,49 @@
 
 			<h:panelGroup layout="block" style="display: block;">
 				<h:outputLabel value="Name:"></h:outputLabel>
-				<h:inputText value="#{bookBean.currentBook.name}">
-					<f:ajax event="change" execute="@this"
-						listener="#{bookBean.update}"></f:ajax>
-				</h:inputText>
+				<p:inputText value="#{bookBean.currentBook.name}">
+					<p:ajax listener="#{bookBean.update}"></p:ajax>
+				</p:inputText>
 			</h:panelGroup>
 
 			<h:panelGroup layout="block" style="display: block;">
 				<h:outputLabel value="Author:"></h:outputLabel>
-				<h:inputText value="#{bookBean.currentBook.author}">
-					<f:ajax event="change" execute="@this"
-						listener="#{bookBean.update}"></f:ajax>
-				</h:inputText>
+				<p:inputText value="#{bookBean.currentBook.author}">
+					<p:ajax listener="#{bookBean.update}"></p:ajax>
+				</p:inputText>
 			</h:panelGroup>
 
 			<h:panelGroup layout="block" style="display: block;">
 				<h:outputLabel value="Content:"></h:outputLabel>
-				<h:inputText value="#{bookBean.currentBook.content}">
-					<f:ajax event="change" execute="@this"
-						listener="#{bookBean.update}"></f:ajax>
-				</h:inputText>
+				<p:inputText value="#{bookBean.currentBook.content}">
+					<p:ajax listener="#{bookBean.update}"></p:ajax>
+				</p:inputText>
 			</h:panelGroup>
 
 			<h:panelGroup layout="block" style="display: block;">
 				<h:outputLabel value="Release date:"></h:outputLabel>
-				<h:inputText id="releasedDate"
+				<p:inputText id="releasedDate"
 					value="#{bookBean.currentBook.releasedDate}"
 					converter="dateConverter" validator="dateValidator">
-					<f:ajax event="change" execute="@this" render="dateConverterMsg"
-						listener="#{bookBean.update}"></f:ajax>
-				</h:inputText>
+					<p:ajax update="dateConverterMsg" listener="#{bookBean.update}"></p:ajax>
+				</p:inputText>
 				<h:message id="dateConverterMsg" for="releasedDate"
 					errorStyle="color: red;"></h:message>
 			</h:panelGroup>
 
 			<h:panelGroup layout="block" style="display: block;">
 				<h:outputLabel value="Category:"></h:outputLabel>
-				<h:inputText id="bookCategory"
+				<p:inputText id="bookCategory"
 					value="#{bookBean.currentBook.category}"
 					converter="categoryConverter">
-					<f:ajax event="change" execute="@this"
-						render="categoryConverterMsg" listener="#{bookBean.update}"></f:ajax>
-				</h:inputText>
+					<p:ajax update="categoryConverterMsg" listener="#{bookBean.update}"></p:ajax>
+				</p:inputText>
 				<h:message id="categoryConverterMsg" for="bookCategory"
 					errorStyle="color: red;" infoStyle="color: blue;"></h:message>
 			</h:panelGroup>
 
-			<h:commandButton value="Back" style="display: block;">
-				<f:ajax render="@form" listener="#{bookBean.showTable}"></f:ajax>
-			</h:commandButton>
+			<p:commandButton value="Back" update="mainForm:bookManagement"
+				actionListener="#{bookBean.showTable}"></p:commandButton>
 		</h:panelGroup>
 	</h:panelGroup>
 </h:body>

@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Home</title>
 	<h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
@@ -14,15 +15,12 @@
 	<h:form id="mainForm">
 		<h:panelGroup layout="block"
 			rendered="#{homeController.menuNavigation eq null}">
-			<h:commandButton value="Book Management">
-				<f:ajax render="@form"
-					listener="#{homeController.showBookManagement}"></f:ajax>
-			</h:commandButton>
+			<h:outputText value="Welcome" style="display: block;"></h:outputText>
+			<p:commandButton value="Book Management" update="mainForm"
+				actionListener="#{homeController.showBookManagement}"></p:commandButton>
 
-			<h:commandButton value="Category Management">
-				<f:ajax render="@form"
-					listener="#{homeController.showCategoryManagement}"></f:ajax>
-			</h:commandButton>
+			<p:commandButton value="Category Management" update="mainForm"
+				actionListener="#{homeController.showCategoryManagement}"></p:commandButton>
 		</h:panelGroup>
 
 		<h:panelGroup layout="block"

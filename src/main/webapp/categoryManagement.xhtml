@@ -4,13 +4,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 </h:head>
 
 <h:body>
 	<h:panelGroup id="categoryManagement" layout="block">
-		<h:panelGroup layout="block" rendered="#{categoryBean.currentCategory eq null}">
+		<h:panelGroup id="categoryTable" layout="block"
+			rendered="#{categoryBean.currentCategory eq null}">
 			<h:outputText value="Category Management"></h:outputText>
 
 			<h:dataTable value="#{categoryBean.categories}" var="category">
@@ -21,11 +23,11 @@
 
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:commandLink value="#{category.name}">
+					<p:commandLink value="#{category.name}"
+						update="mainForm:categoryManagement">
 						<f:setPropertyActionListener value="#{category}"
 							target="#{categoryBean.currentCategory}"></f:setPropertyActionListener>
-						<f:ajax render="@form"></f:ajax>
-					</h:commandLink>
+					</p:commandLink>
 				</h:column>
 
 				<h:column>
@@ -40,35 +42,33 @@
 
 				<h:column>
 					<f:facet name="header">Delete</f:facet>
-					<h:commandLink value="Delete">
-						<f:ajax listener="#{categoryBean.remove(category)}" render="@form"></f:ajax>
-					</h:commandLink>
+					<p:commandLink value="Delete" update="mainForm:categoryTable"
+						actionListener="#{categoryBean.remove(category)}"></p:commandLink>
 				</h:column>
 			</h:dataTable>
 
-			<h:commandButton value="Back">
-				<f:ajax render="@form" listener="#{homeController.showHomeMenu}"></f:ajax>
-			</h:commandButton>
-			<h:commandButton value="Add">
-				<f:ajax listener="#{categoryBean.showCategoryDetails}"
-					render="@form"></f:ajax>
-			</h:commandButton>
+			<p:commandButton value="Back" update="mainForm"
+				actionListener="#{homeController.showHomeMenu}"></p:commandButton>
+
+			<p:commandButton value="Add" update="mainForm:categoryManagement"
+				actionListener="#{categoryBean.showCategoryDetails}"></p:commandButton>
 		</h:panelGroup>
 
-		<h:panelGroup layout="block" rendered="#{categoryBean.currentCategory ne null}">
-			<h:outputText value="Category's Details" style="display: block;"></h:outputText>
-			<h:panelGroup layout="block">
-				<h:outputLabel value="Name:" for="inputCategoryName"></h:outputLabel>
-				<h:inputText id="inputCategoryName"
-					value="#{categoryBean.currentCategory.name}">
-					<f:ajax event="change" execute="inputCategoryName"
-						listener="#{categoryBean.update}"></f:ajax>
-				</h:inputText>
+		<h:panelGroup layout="block"
+			rendered="#{categoryBean.currentCategory ne null}">
+			<h:panelGroup layout="block" style="display: block;">
+				<h:outputText value="Category's Details" style="display: block;"></h:outputText>
 			</h:panelGroup>
 
-			<h:commandButton value="Back">
-				<f:ajax render="@form" listener="#{categoryBean.showTable}"></f:ajax>
-			</h:commandButton>
+			<h:panelGroup layout="block" style="display: block;">
+				<h:outputLabel value="Name:"></h:outputLabel>
+				<p:inputText value="#{categoryBean.currentCategory.name}">
+					<p:ajax listener="#{categoryBean.update}"></p:ajax>
+				</p:inputText>
+			</h:panelGroup>
+
+			<p:commandButton value="Back" update="mainForm:categoryManagement"
+				actionListener="#{categoryBean.showTable}"></p:commandButton>
 		</h:panelGroup>
 	</h:panelGroup>
 </h:body>
