@@ -6,6 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
+
 <h:head>
 </h:head>
 
@@ -48,12 +49,14 @@
 			</h:dataTable>
 
 			<p:commandButton value="Back" update="mainForm"
-				actionListener="#{homeController.showHomeMenu}"></p:commandButton>
+				actionListener="#{homeController.showHomeMenu}">
+			</p:commandButton>
 
 			<p:commandButton value="Add" update="mainForm:categoryManagement"
 				actionListener="#{categoryBean.showCategoryDetails}"></p:commandButton>
 		</h:panelGroup>
 
+		<!-- ========== Category's Details ========== -->
 		<h:panelGroup layout="block"
 			rendered="#{categoryBean.currentCategory ne null}">
 			<h:panelGroup layout="block" style="display: block;">

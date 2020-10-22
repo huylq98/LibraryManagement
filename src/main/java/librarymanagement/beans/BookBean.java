@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -17,7 +17,7 @@ import librarymanagement.entities.Book;
 import librarymanagement.services.BookService;
 
 @Named
-@SessionScoped
+@ConversationScoped
 public class BookBean implements Serializable {
 
 	private static final long serialVersionUID = -6310537176437206875L;
@@ -69,4 +69,5 @@ public class BookBean implements Serializable {
 	public void setCurrentBook(Book currentBook) {
 		this.currentBook = currentBook;
 	}
+
 }

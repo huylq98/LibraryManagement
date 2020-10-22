@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -17,7 +17,7 @@ import librarymanagement.entities.Category;
 import librarymanagement.services.CategoryService;
 
 @Named
-@SessionScoped
+@ConversationScoped
 public class CategoryBean implements Serializable {
 
 	private static final long serialVersionUID = -842664746377744660L;
@@ -69,4 +69,5 @@ public class CategoryBean implements Serializable {
 	public void setCurrentCategory(Category currentCategory) {
 		this.currentCategory = currentCategory;
 	}
+
 }

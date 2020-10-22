@@ -1,3 +1,22 @@
 * {
+	padding: 0;
+	margin: 0;
 	text-decoration: none;
+}
+
+.title {
+	display: block;
+}
+
+.table {
+	border: 1px solid #000000;
+}
+
+.table-header {
+	color: #ffffff;
+	background-color: #f39c12;
+}
+
+.table-row {
+	
 }
