@@ -39,14 +39,14 @@ public class CategoryBean implements Serializable {
 	}
 
 	public void remove(Category category) {
-		categoryService.remove(category);
+		categoryService.delete(category);
 		categories.remove(category);
 	}
 
 	public void showCategoryDetails() {
 		currentCategory = new Category();
 		currentCategory.setCreatedDate(LocalDate.now());
-		categoryService.save(currentCategory);
+		categoryService.add(currentCategory);
 		categories.add(currentCategory);
 	}
 

@@ -109,7 +109,7 @@
 				<h:outputLabel value="Category:"></h:outputLabel>
 				<p:inputText id="bookCategory"
 					value="#{bookBean.currentBook.category}"
-					converter="categoryConverter">
+					converter="#{categoryConverter}">
 					<p:ajax update="categoryConverterMsg" listener="#{bookBean.update}"></p:ajax>
 				</p:inputText>
 				<h:message id="categoryConverterMsg" for="bookCategory"

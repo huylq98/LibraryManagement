@@ -9,18 +9,19 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.hibernate.HibernateException;
 
 import librarymanagement.entities.Category;
 import librarymanagement.services.CategoryService;
-import librarymanagement.services.impl.CategoryServiceImpl;
 
-@FacesConverter("categoryConverter")
+@Named
 public class CategoryConverter implements Converter {
 
-	private CategoryService categoryService = new CategoryServiceImpl();
+	@Inject
+	private CategoryService categoryService;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {

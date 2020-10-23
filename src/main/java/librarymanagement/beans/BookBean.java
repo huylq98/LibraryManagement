@@ -39,14 +39,14 @@ public class BookBean implements Serializable {
 	}
 
 	public void remove(Book book) {
-		bookService.remove(book);
+		bookService.delete(book);
 		books.remove(book);
 	}
 
 	public void showBookDetails() {
 		currentBook = new Book();
 		currentBook.setCreatedDate(LocalDate.now());
-		bookService.save(currentBook);
+		bookService.add(currentBook);
 		books.add(currentBook);
 	}
 

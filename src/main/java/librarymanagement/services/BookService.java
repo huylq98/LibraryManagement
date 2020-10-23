@@ -13,9 +13,9 @@ public interface BookService {
 
 	Book get(Integer id);
 
-	void save(Book book);
+	void add(Book book);
 
 	void update(Book book);
 
-	void remove(Book book);
+	void delete(Book book);
 }

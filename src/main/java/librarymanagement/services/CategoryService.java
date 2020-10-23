@@ -13,9 +13,9 @@ public interface CategoryService {
 
 	Category get(Integer id);
 
-	void save(Category category);
+	void add(Category category);
 
 	void update(Category category);
 
-	void remove(Category category);
+	void delete(Category category);
 }
