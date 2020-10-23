@@ -13,9 +13,9 @@ public interface CategoryService {
 
 	Category get(Integer id);
 
-	void add(Category category);
+	void add(Category category) throws Exception;
 
-	void update(Category category);
+	void update(Category category) throws Exception;
 
-	void delete(Category category);
+	void delete(Category category) throws Exception;
 }

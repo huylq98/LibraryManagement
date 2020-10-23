@@ -33,17 +33,17 @@ public class CategoryBean implements Serializable {
 		categories = categoryService.getAll();
 	}
 
-	public void update() {
+	public void update() throws Exception {
 		currentCategory.setUpdatedDate(LocalDate.now());
 		categoryService.update(currentCategory);
 	}
 
-	public void remove(Category category) {
+	public void remove(Category category) throws Exception {
 		categoryService.delete(category);
 		categories.remove(category);
 	}
 
-	public void showCategoryDetails() {
+	public void showCategoryDetails() throws Exception {
 		currentCategory = new Category();
 		currentCategory.setCreatedDate(LocalDate.now());
 		categoryService.add(currentCategory);

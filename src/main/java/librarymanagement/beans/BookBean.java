@@ -33,17 +33,17 @@ public class BookBean implements Serializable {
 		books = bookService.getAll();
 	}
 
-	public void update() {
+	public void update() throws Exception {
 		currentBook.setUpdatedDate(LocalDate.now());
 		bookService.update(currentBook);
 	}
 
-	public void remove(Book book) {
+	public void remove(Book book) throws Exception {
 		bookService.delete(book);
 		books.remove(book);
 	}
 
-	public void showBookDetails() {
+	public void showBookDetails() throws Exception {
 		currentBook = new Book();
 		currentBook.setCreatedDate(LocalDate.now());
 		bookService.add(currentBook);

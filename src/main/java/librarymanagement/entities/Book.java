@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,7 +28,7 @@ public class Book extends BaseEntity {
 	@Column(name = "releaseddate", columnDefinition = "DATE")
 	private LocalDate releasedDate;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "categoryid")
 	private Category category;
 

@@ -8,26 +8,20 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import librarymanagement.entities.Book;
 import librarymanagement.services.BookService;
-//import librarymanagement.utils.HibernateUtils;
 
-@SessionScoped
+@ConversationScoped
 public class BookServiceImpl implements BookService, Serializable {
 
 	private static final long serialVersionUID = -3268025886861382138L;
 
-	@PersistenceContext(unitName = "librarymangement-driver")
+	@PersistenceContext(unitName = "librarymangement-persistence")
 	private EntityManager entityManager;
 
 	@Resource
@@ -35,72 +29,36 @@ public class BookServiceImpl implements BookService, Serializable {
 
 	@Override
 	public List<Book> getAll() {
-//		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-//			List<Book> books = session.createQuery("FROM Book", Book.class).getResultList();
-//			return books;
-//		}
 		List<Book> books = entityManager.createQuery("SELECT b FROM Book b", Book.class).getResultList();
 		return books;
 	}
 
 	@Override
 	public Book get(Integer id) {
-//		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-//			Book book = session.get(Book.class, id);
-//			return book;
-//		}
 		Book book = entityManager.find(Book.class, id);
 		return book;
 	}
 
 	@Override
-	public void add(Book book) {
-//		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-//			Transaction transaction = session.beginTransaction();
-//			session.save(book);
-//			transaction.commit();
-//		}
-		try {
-			userTransaction.begin();
-			entityManager.persist(book);
-			userTransaction.commit();
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
+	public void add(Book book) throws Exception {
+		userTransaction.begin();
+		entityManager.persist(book);
+		userTransaction.commit();
 	}
 
 	@Override
-	public void update(Book book) {
-//		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-//			Transaction transaction = session.beginTransaction();
-//			session.saveOrUpdate(book);
-//			transaction.commit();
-//		}
-		try {
-			userTransaction.begin();
-			entityManager.merge(book);
-			userTransaction.commit();
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
+	public void update(Book book) throws Exception {
+		userTransaction.begin();
+		entityManager.merge(book);
+		userTransaction.commit();
 	}
 
 	@Override
-	public void delete(Book book) {
-//		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-//			Transaction transaction = session.beginTransaction();
-//			session.remove(book);
-//			transaction.commit();
-//		}
-		try {
-			userTransaction.begin();
-			entityManager.remove(book);
-			userTransaction.commit();
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
+	public void delete(Book book) throws Exception {
+		userTransaction.begin();
+		Book b = entityManager.find(Book.class, book.getId());
+		entityManager.remove(b);
+		userTransaction.commit();
+
 	}
 }

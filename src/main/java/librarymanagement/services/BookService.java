@@ -13,9 +13,9 @@ public interface BookService {
 
 	Book get(Integer id);
 
-	void add(Book book);
+	void add(Book book) throws Exception;
 
-	void update(Book book);
+	void update(Book book) throws Exception;
 
-	void delete(Book book);
+	void delete(Book book) throws Exception;
 }
